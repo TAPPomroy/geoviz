@@ -19,11 +19,11 @@ See: .planning/PROJECT.md
 | Field | Value |
 |-------|-------|
 | Phase | 1 — Data Pipeline |
-| Plan | None yet |
-| Status | Not started |
+| Plan | PLAN.md |
+| Status | In progress — awaiting VBA module import (Step 2) |
 | Progress | 0/3 phases complete |
 
-Progress: [ ] Phase 1 / [ ] Phase 2 / [ ] Phase 3
+Progress: [~] Phase 1 / [ ] Phase 2 / [ ] Phase 3
 
 ---
 
