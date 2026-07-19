@@ -25,7 +25,7 @@
 2. Re-running the macro on a fully-geocoded sheet completes instantly — zero new API calls — because cached rows are skipped.
 3. Rows with unresolvable addresses receive the "GEOCODE_FAILED" sentinel in the lat/lon cells and are not retried on subsequent runs.
 4. The macro produces a valid JSON array of company objects (verifiable by pasting into a browser console) with no character-encoding corruption in names or addresses.
-**Plans:** TBD
+**Plans:** `.planning/phases/01-data-pipeline/PLAN.md` (6 tasks)
 **UI hint:** no
 
 ### Phase 2: Map Rendering
@@ -58,6 +58,6 @@
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Data Pipeline | 0/? | Not started | - |
+| 1. Data Pipeline | 6/6 planned | Ready to execute | - |
 | 2. Map Rendering | 0/? | Not started | - |
 | 3. Interactivity | 0/? | Not started | - |
