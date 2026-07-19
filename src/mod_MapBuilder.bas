@@ -93,6 +93,13 @@ Public Function BuildMapHtml(ByVal jsonStr As String) As String
     AppendLine sb, "  return div;"
     AppendLine sb, "};"
     AppendLine sb, "legend.addTo(map);"
+    ' Delegated click handler on legendDiv -- avoids per-item inline onclick (WR-01, WR-02).
+    ' legendDiv is guaranteed to exist after legend.addTo(map) runs onAdd.
+    AppendLine sb, "legendDiv.addEventListener('click', function(e) {"
+    AppendLine sb, "  var el = e.target.closest('.legend-item');"
+    AppendLine sb, "  if (el && el.dataset.val !== undefined) { toggleValue(el.dataset.val); }"
+    AppendLine sb, "});"
+    AppendLine sb, ""
 
     ' --- State variables (Plan 01 + Plan 02) ---
     AppendLine sb, "var selectedMarker = null;"
@@ -222,8 +229,7 @@ Public Function BuildMapHtml(ByVal jsonStr As String) As String
     AppendLine sb, "    var strike = hidden ? 'text-decoration:line-through;' : '';"
     AppendLine sb, "    html += '<span style=""display:inline-block;width:12px;height:12px;background:' + color"
     AppendLine sb, "          + ';margin-right:6px;border-radius:2px;vertical-align:middle;opacity:' + opacity + '""></span>'"
-    AppendLine sb, "          + '<span style=""cursor:pointer;' + strike + '"" onclick=""toggleValue(\\'' + v.replace(/'/g, ""\\\\'"") + '\\')"">'"
-    AppendLine sb, "          + v + '</span><br>';"
+    AppendLine sb, "          + '<span data-val=""' + escHtml(v) + '"" class=""legend-item"" style=""cursor:pointer;' + strike + '"">' + escHtml(v) + '</span><br>';"
     AppendLine sb, "  });"
     AppendLine sb, "  if (fieldNames.length > ISP_COLORS.length) {"
     AppendLine sb, "    html += '<span style=""display:inline-block;width:12px;height:12px;background:#999999;margin-right:6px;border-radius:2px;vertical-align:middle""></span>Other<br>';"
