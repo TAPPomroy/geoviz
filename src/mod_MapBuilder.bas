@@ -15,6 +15,7 @@ Public Sub WriteUtf8File(ByVal filePath As String, ByVal content As String)
     stream.Charset = "utf-8"
     stream.Open
     stream.WriteText content
+    stream.Position = 0             ' rewind before SaveToFile — required by ADODB.Stream
     stream.SaveToFile filePath, 2   ' adSaveCreateOverWrite
     stream.Close
     Set stream = Nothing
