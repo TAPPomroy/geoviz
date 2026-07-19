@@ -10,7 +10,7 @@
 
 - [x] **Phase 1: Data Pipeline** - VBA reads the company sheet, geocodes addresses via Nominatim, and caches results
 - [x] **Phase 2: Map Rendering** - HTML builder produces a Leaflet map with colored markers, clustering, and a macro button
-- [ ] **Phase 3: Interactivity** - Click interactions, radius highlighting, attribute filtering, and ISP legend controls
+- [x] **Phase 3: Interactivity** - Click interactions, radius highlighting, attribute filtering, and ISP legend controls (completed 2026-07-19)
 
 ---
 
@@ -52,10 +52,10 @@ Plans:
 2. After clicking a marker, a radius circle appears immediately and all companies within the radius are highlighted; companies sharing the clicked company's ISP are visually distinct from other neighbors.
 3. Dragging the radius slider updates the circle boundary and neighbor highlights in real time without a page reload.
 4. Using the attribute dropdown switches marker coloring to the selected column, and clicking an ISP legend entry shows or hides that ISP's markers immediately.
-**Plans:** 1/2 plans executed
+**Plans:** 2/2 plans complete
 Plans:
 - [x] 03-01-PLAN.md — Marker click interaction, radius circle, neighbor highlighting, radius slider (INT-01 through INT-04)
-- [ ] 03-02-PLAN.md — Interactive legend with toggle, attribute filter dropdown, dynamic recoloring (FILT-01, FILT-02)
+- [x] 03-02-PLAN.md — Interactive legend with toggle, attribute filter dropdown, dynamic recoloring (FILT-01, FILT-02)
 **UI hint:** yes
 
 ---
@@ -66,4 +66,4 @@ Plans:
 |-------|----------------|--------|-----------|
 | 1. Data Pipeline | 6/6 planned | Complete | 2026-07-18 |
 | 2. Map Rendering | 2/2 planned | Complete | 2026-07-19 |
-| 3. Interactivity | 1/2 | In Progress|  |
+| 3. Interactivity | 2/2 | Complete   | 2026-07-19 |

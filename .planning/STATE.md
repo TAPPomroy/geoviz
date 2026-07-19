@@ -3,20 +3,20 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-07-19T12:56:00.972Z"
+last_updated: "2026-07-19T12:59:51.166Z"
 progress:
   total_phases: 3
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 4
-  completed_plans: 3
-  percent: 33
+  completed_plans: 4
+  percent: 67
 ---
 
 # GeoViz — Project State
 
 ## Current Status
 
-Phase: Phase 3 — In Progress (03-01 complete, 03-02 pending)
+Phase: Phase 3 — Complete (03-01 and 03-02 complete)
 
 ## Project Reference
 
@@ -34,10 +34,10 @@ See: .planning/PROJECT.md
 |-------|-------|
 | Phase | 3 — Interactivity |
 | Plan | 03-01-PLAN.md, 03-02-PLAN.md |
-| Status | 03-01 complete — 03-02 ready to execute |
-| Progress | 2/3 phases complete |
+| Status | 03-01 complete, 03-02 complete — Phase 3 done |
+| Progress | 3/3 phases complete |
 
-Progress: [████████░░] 75%
+Progress: [██████████] 100%
 
 ---
 
@@ -58,6 +58,8 @@ Progress: [████████░░] 75%
 
 | Decision | Rationale |
 |----------|-----------|
+| Single editing pass (Tasks 1+2) — plan authorized combined pass; JS written in correct dependency order | Phase 3 Plan 02 |
+| applySelection updated to use getFieldColor and currentField throughout — correctness fix for non-ISP filter columns | Phase 3 Plan 02 |
 | Pure VBA + HTML/JS | Zero dependencies — runs on any Windows Excel without setup |
 | Nominatim geocoding | Free, no API key, sufficient for < 100 companies |
 | Leaflet.js via CDN | Lightweight, well-documented, standalone HTML |
@@ -93,4 +95,4 @@ Progress: [████████░░] 75%
 
 ## Session Continuity
 
-*Last updated: 2026-07-19 — Phase 3 plan 03-01 complete; marker click interactivity and radius slider implemented in mod_MapBuilder.bas*
+*Last updated: 2026-07-19 — Phase 3 plan 03-02 complete; dynamic legend, attribute filter dropdown, buildColorMap/getFieldColor/buildLegend/toggleValue/applyFilter implemented in mod_MapBuilder.bas*

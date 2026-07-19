@@ -29,8 +29,8 @@
 
 ### Filtering & Legend
 
-- [ ] **FILT-01**: A dropdown or toggle on the map lets the user switch marker coloring between available attribute columns (defaults to ISP)
-- [ ] **FILT-02**: An ISP legend on the map allows individual ISPs to be shown or hidden by clicking their legend entry
+- [x] **FILT-01**: A dropdown or toggle on the map lets the user switch marker coloring between available attribute columns (defaults to ISP)
+- [x] **FILT-02**: An ISP legend on the map allows individual ISPs to be shown or hidden by clicking their legend entry
 
 ## v2 Requirements
 
@@ -78,8 +78,8 @@
 | INT-02 | Phase 3 | Complete |
 | INT-03 | Phase 3 | Complete |
 | INT-04 | Phase 3 | Complete |
-| FILT-01 | Phase 3 | Pending |
-| FILT-02 | Phase 3 | Pending |
+| FILT-01 | Phase 3 | Complete |
+| FILT-02 | Phase 3 | Complete |
 
 **Coverage:**
 - v1 requirements: 15 total
