@@ -551,17 +551,13 @@ legend.addTo(map);
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Does Phase 1's `JsonEscape()` escape `</script>`?**
-   - What we know: `mod_JsonBuilder.JsonEscape` escapes `\`, `"`, `/`, control chars. The `/` escape (`\/`) would convert `</script>` to `<\/script>`.
-   - What's unclear: Phase 1 PLAN.md shows `result = Replace(result, "/", "\/")` — this WOULD escape `</script>` automatically. Planner should verify this line is present in the actual `mod_JsonBuilder.bas` code.
-   - Recommendation: Read the live `.bas` file before coding `BuildMapHtml()` to confirm the escape is in place. If present, no additional handling needed.
+   - RESOLVED: Phase 1 PLAN.md Task 5 confirms `result = Replace(result, "/", "\/")` is present in `mod_JsonBuilder.JsonEscape`. This converts `</script>` → `<\/script>` automatically. No additional handling needed in `BuildMapHtml()`.
 
 2. **Map initial center and zoom for US vs. international datasets**
-   - What we know: `map.fitBounds(clusterGroup.getBounds())` auto-fits to all markers — no hardcoded center needed.
-   - What's unclear: If all companies fail geocoding, `clusterGroup.getBounds()` is undefined and `fitBounds` throws.
-   - Recommendation: Guard with `if (markers.length > 0)` before calling `fitBounds`. Fallback: `map.setView([39.5, -98.35], 4)` (US center) when no valid markers exist.
+   - RESOLVED: 02-01 Task 2 action includes `if (markers.length > 0) { clusterGroup.getBounds(); } else { map.setView([39.5, -98.35], 4); }` guard. Empty-dataset case handled.
 
 ---
 
