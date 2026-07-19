@@ -20,10 +20,10 @@ See: .planning/PROJECT.md
 |-------|-------|
 | Phase | 1 — Data Pipeline |
 | Plan | PLAN.md |
-| Status | In progress — awaiting VBA module import (Step 2) |
-| Progress | 0/3 phases complete |
+| Status | Complete |
+| Progress | 1/3 phases complete |
 
-Progress: [~] Phase 1 / [ ] Phase 2 / [ ] Phase 3
+Progress: [x] Phase 1 / [ ] Phase 2 / [ ] Phase 3
 
 ---
 
