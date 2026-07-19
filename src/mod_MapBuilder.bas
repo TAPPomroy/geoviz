@@ -117,13 +117,24 @@ Public Function BuildMapHtml(ByVal jsonStr As String) As String
     AppendLine sb, "}"
     AppendLine sb, ""
 
+    ' --- Helper: HTML-escape to prevent XSS (CR-02) ---
+    AppendLine sb, "function escHtml(s) {"
+    AppendLine sb, "  return String(s)"
+    AppendLine sb, "    .replace(/&/g, '&amp;')"
+    AppendLine sb, "    .replace(/</g, '&lt;')"
+    AppendLine sb, "    .replace(/>/g, '&gt;')"
+    AppendLine sb, "    .replace(/""/g, '&quot;')"
+    AppendLine sb, "    .replace(/'/g, '&#39;');"
+    AppendLine sb, "}"
+    AppendLine sb, ""
+
     ' --- Helper: popup HTML table ---
     AppendLine sb, "function buildPopupHtml(company) {"
     AppendLine sb, "  var POPUP_EXCLUDE = ['Lat','Lon'];"
     AppendLine sb, "  var rows = '';"
     AppendLine sb, "  Object.keys(company).forEach(function(k) {"
     AppendLine sb, "    if (POPUP_EXCLUDE.indexOf(k) === -1) {"
-    AppendLine sb, "      rows += '<tr><td style=""font-weight:bold;padding-right:8px"">' + k + '</td><td>' + company[k] + '</td></tr>';"
+    AppendLine sb, "      rows += '<tr><td style=""font-weight:bold;padding-right:8px"">' + escHtml(k) + '</td><td>' + escHtml(company[k]) + '</td></tr>';"
     AppendLine sb, "    }"
     AppendLine sb, "  });"
     AppendLine sb, "  return '<table style=""border-collapse:collapse;font-size:13px"">' + rows + '</table>';"
