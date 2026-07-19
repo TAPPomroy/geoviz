@@ -22,10 +22,10 @@
 
 ### Interaction
 
-- [ ] **INT-01**: Clicking a company marker opens a popup showing: company name, ISP, address, and all attribute columns
-- [ ] **INT-02**: Clicking a company marker draws a radius circle centered on that company and highlights all companies within the radius
-- [ ] **INT-03**: Within the highlighted neighbors, companies sharing the same ISP as the selected company are visually distinguished (e.g., brighter color or different marker shape)
-- [ ] **INT-04**: A radius slider on the map UI lets the user adjust the proximity distance; the circle and highlights update live
+- [x] **INT-01**: Clicking a company marker opens a popup showing: company name, ISP, address, and all attribute columns
+- [x] **INT-02**: Clicking a company marker draws a radius circle centered on that company and highlights all companies within the radius
+- [x] **INT-03**: Within the highlighted neighbors, companies sharing the same ISP as the selected company are visually distinguished (e.g., brighter color or different marker shape)
+- [x] **INT-04**: A radius slider on the map UI lets the user adjust the proximity distance; the circle and highlights update live
 
 ### Filtering & Legend
 
@@ -74,10 +74,10 @@
 | MAP-03 | Phase 2 | Pending |
 | MAP-04 | Phase 2 | Pending |
 | MAP-05 | Phase 2 | Pending |
-| INT-01 | Phase 3 | Pending |
-| INT-02 | Phase 3 | Pending |
-| INT-03 | Phase 3 | Pending |
-| INT-04 | Phase 3 | Pending |
+| INT-01 | Phase 3 | Complete |
+| INT-02 | Phase 3 | Complete |
+| INT-03 | Phase 3 | Complete |
+| INT-04 | Phase 3 | Complete |
 | FILT-01 | Phase 3 | Pending |
 | FILT-02 | Phase 3 | Pending |
 
