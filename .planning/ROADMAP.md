@@ -52,7 +52,10 @@ Plans:
 2. After clicking a marker, a radius circle appears immediately and all companies within the radius are highlighted; companies sharing the clicked company's ISP are visually distinct from other neighbors.
 3. Dragging the radius slider updates the circle boundary and neighbor highlights in real time without a page reload.
 4. Using the attribute dropdown switches marker coloring to the selected column, and clicking an ISP legend entry shows or hides that ISP's markers immediately.
-**Plans:** TBD
+**Plans:** 2 plans
+Plans:
+- [ ] 03-01-PLAN.md — Marker click interaction, radius circle, neighbor highlighting, radius slider (INT-01 through INT-04)
+- [ ] 03-02-PLAN.md — Interactive legend with toggle, attribute filter dropdown, dynamic recoloring (FILT-01, FILT-02)
 **UI hint:** yes
 
 ---
@@ -63,4 +66,4 @@ Plans:
 |-------|----------------|--------|-----------|
 | 1. Data Pipeline | 6/6 planned | Complete | 2026-07-18 |
 | 2. Map Rendering | 2/2 planned | Complete | 2026-07-19 |
-| 3. Interactivity | 0/? | Not started | - |
+| 3. Interactivity | 0/2 | Not started | - |
