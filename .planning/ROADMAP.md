@@ -8,8 +8,8 @@
 
 ## Phases
 
-- [ ] **Phase 1: Data Pipeline** - VBA reads the company sheet, geocodes addresses via Nominatim, and caches results
-- [ ] **Phase 2: Map Rendering** - HTML builder produces a Leaflet map with colored markers, clustering, and a macro button
+- [x] **Phase 1: Data Pipeline** - VBA reads the company sheet, geocodes addresses via Nominatim, and caches results
+- [x] **Phase 2: Map Rendering** - HTML builder produces a Leaflet map with colored markers, clustering, and a macro button
 - [ ] **Phase 3: Interactivity** - Click interactions, radius highlighting, attribute filtering, and ISP legend controls
 
 ---
@@ -39,8 +39,8 @@
 4. The map renders on the CartoDB Positron basemap and is fully pannable and zoomable without page reloads.
 **Plans:** 2 plans
 Plans:
-- [ ] 02-01-PLAN.md — Create mod_MapBuilder.bas (HTML builder: BuildMapHtml + WriteUtf8File)
-- [ ] 02-02-PLAN.md — Implement GenerateMap() in mod_Macros + add Excel button + human verify
+- [x] 02-01-PLAN.md — Create mod_MapBuilder.bas (HTML builder: BuildMapHtml + WriteUtf8File)
+- [x] 02-02-PLAN.md — Implement GenerateMap() in mod_Macros + add Excel button + human verify
 **UI hint:** yes
 
 ### Phase 3: Interactivity
@@ -61,6 +61,6 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Data Pipeline | 6/6 planned | Ready to execute | - |
-| 2. Map Rendering | 0/2 planned | Ready to execute | - |
+| 1. Data Pipeline | 6/6 planned | Complete | 2026-07-18 |
+| 2. Map Rendering | 2/2 planned | Complete | 2026-07-19 |
 | 3. Interactivity | 0/? | Not started | - |

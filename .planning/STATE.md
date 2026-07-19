@@ -2,7 +2,7 @@
 
 ## Current Status
 
-Phase: Pre-execution
+Phase: Phase 2 Complete
 
 ## Project Reference
 
@@ -10,7 +10,7 @@ See: .planning/PROJECT.md
 
 **Core value:** Click any company on the map and immediately see which neighboring companies share its ISP — with an adjustable proximity radius.
 
-**Current focus:** Phase 1
+**Current focus:** Phase 3
 
 ---
 
@@ -18,12 +18,12 @@ See: .planning/PROJECT.md
 
 | Field | Value |
 |-------|-------|
-| Phase | 1 — Data Pipeline |
-| Plan | PLAN.md |
+| Phase | 2 — Map Rendering |
+| Plan | 02-02-PLAN.md |
 | Status | Complete |
-| Progress | 1/3 phases complete |
+| Progress | 2/3 phases complete |
 
-Progress: [x] Phase 1 / [ ] Phase 2 / [ ] Phase 3
+Progress: [x] Phase 1 / [x] Phase 2 / [ ] Phase 3
 
 ---
 
@@ -58,6 +58,7 @@ Progress: [x] Phase 1 / [ ] Phase 2 / [ ] Phase 3
 - Mark of the Web: document Unblock step for distributed workbook
 - JSON injection: apply JsonEscape() to every string field before embedding
 - Cache overwrite: skip rows where lat/lon is already populated
+- OneDrive path: `ThisWorkbook.Path` returns `https://d.docs.live.net/...` URL when synced via OneDrive — use `LocalWorkbookPath()` in mod_Macros (resolves via `Environ("OneDriveConsumer")`) for any file write operations
 
 ### Open Questions
 
@@ -78,4 +79,4 @@ Progress: [x] Phase 1 / [ ] Phase 2 / [ ] Phase 3
 
 ## Session Continuity
 
-*Last updated: 2026-07-18 — Roadmap created, pre-execution*
+*Last updated: 2026-07-19 — Phase 2 complete; map generates and opens in browser*
