@@ -15,7 +15,7 @@ Public Sub WriteUtf8File(ByVal filePath As String, ByVal content As String)
     stream.Charset = "utf-8"
     stream.Open
     stream.WriteText content
-    stream.Position = 0             ' rewind before SaveToFile — required by ADODB.Stream
+    stream.Position = 0             ' rewind before SaveToFile -- required by ADODB.Stream
     stream.SaveToFile filePath, 2   ' adSaveCreateOverWrite
     stream.Close
     Set stream = Nothing
@@ -51,7 +51,7 @@ Public Function BuildMapHtml(ByVal jsonStr As String) As String
     AppendLine sb, "var ISP_COLORS = [""#e41a1c"",""#377eb8"",""#4daf4a"",""#984ea3"",""#ff7f00"",""#a65628"",""#f781bf""];"
     AppendLine sb, "var OTHER_COLOR = ""#999999"";"
 
-    ' Deterministic ISP->color map via alphabetical sort (D-05)
+    ' Deterministic ISP->color map via alphabetical sort (D-05) -- used for initial marker creation
     AppendLine sb, "var ispNames = [];"
     AppendLine sb, "companies.forEach(function(c){ if(ispNames.indexOf(c.ISP)===-1) ispNames.push(c.ISP); });"
     AppendLine sb, "ispNames.sort();"
@@ -82,26 +82,19 @@ Public Function BuildMapHtml(ByVal jsonStr As String) As String
     ' Fit bounds only when there are markers (guard against empty dataset)
     AppendLine sb, "if(markers.length > 0){ map.fitBounds(clusterGroup.getBounds(),{padding:[30,30]}); }"
 
-    ' ISP legend in bottom-right corner (D-08)
+    ' Dynamic legend in bottom-right corner (D-08). legendDiv stores the div reference
+    ' so buildLegend() can update innerHTML without re-querying the DOM.
+    AppendLine sb, "var legendDiv = null;"
     AppendLine sb, "var legend = L.control({position:'bottomright'});"
     AppendLine sb, "legend.onAdd = function(map){"
     AppendLine sb, "  var div = L.DomUtil.create('div');"
     AppendLine sb, "  div.style.cssText = 'background:white;padding:8px 12px;border-radius:4px;line-height:1.8;font-size:13px;box-shadow:0 1px 5px rgba(0,0,0,.3)';"
-    AppendLine sb, "  var html = '<strong>ISP</strong><br>';"
-    AppendLine sb, "  ispNames.forEach(function(isp){"
-    AppendLine sb, "    html += '<span style=""display:inline-block;width:12px;height:12px;background:'"
-    AppendLine sb, "          + ispColorMap[isp] + ';margin-right:6px;border-radius:2px;vertical-align:middle;""></span>'"
-    AppendLine sb, "          + isp + '<br>';"
-    AppendLine sb, "  });"
-    AppendLine sb, "  if(ispNames.length > ISP_COLORS.length){"
-    AppendLine sb, "    html += '<span style=""display:inline-block;width:12px;height:12px;background:#999999;margin-right:6px;border-radius:2px;vertical-align:middle;""></span>Other<br>';"
-    AppendLine sb, "  }"
-    AppendLine sb, "  div.innerHTML = html;"
+    AppendLine sb, "  legendDiv = div;"
     AppendLine sb, "  return div;"
     AppendLine sb, "};"
     AppendLine sb, "legend.addTo(map);"
 
-    ' --- Task 1: State variables, helpers, clearSelection, applySelection ---
+    ' --- State variables (Plan 01 + Plan 02) ---
     AppendLine sb, "var selectedMarker = null;"
     AppendLine sb, "var selectedCompany = null;"
     AppendLine sb, "var selectedISP = null;"
@@ -111,6 +104,8 @@ Public Function BuildMapHtml(ByVal jsonStr As String) As String
     AppendLine sb, "var fieldNames = [];"
     AppendLine sb, "var hiddenValues = {};"
     AppendLine sb, ""
+
+    ' --- Helper: haversine distance in miles ---
     AppendLine sb, "function haversine(lat1, lon1, lat2, lon2) {"
     AppendLine sb, "  var R = 3958.8;"
     AppendLine sb, "  var dLat = (lat2-lat1)*Math.PI/180;"
@@ -121,6 +116,8 @@ Public Function BuildMapHtml(ByVal jsonStr As String) As String
     AppendLine sb, "  return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));"
     AppendLine sb, "}"
     AppendLine sb, ""
+
+    ' --- Helper: popup HTML table ---
     AppendLine sb, "function buildPopupHtml(company) {"
     AppendLine sb, "  var POPUP_EXCLUDE = ['Lat','Lon'];"
     AppendLine sb, "  var rows = '';"
@@ -132,16 +129,39 @@ Public Function BuildMapHtml(ByVal jsonStr As String) As String
     AppendLine sb, "  return '<table style=""border-collapse:collapse;font-size:13px"">' + rows + '</table>';"
     AppendLine sb, "}"
     AppendLine sb, ""
+
+    ' --- Helper: radius hint visibility ---
     AppendLine sb, "function setHint(show) {"
     AppendLine sb, "  var h = document.getElementById('radiusHint');"
     AppendLine sb, "  if (h) h.style.display = show ? 'block' : 'none';"
     AppendLine sb, "}"
     AppendLine sb, ""
+
+    ' --- Plan 02: buildColorMap and getFieldColor (defined before clearSelection) ---
+    AppendLine sb, "function buildColorMap(field) {"
+    AppendLine sb, "  fieldNames = [];"
+    AppendLine sb, "  fieldColorMap = {};"
+    AppendLine sb, "  companies.forEach(function(c) {"
+    AppendLine sb, "    var v = c[field] !== undefined ? String(c[field]) : '';"
+    AppendLine sb, "    if (fieldNames.indexOf(v) === -1) { fieldNames.push(v); }"
+    AppendLine sb, "  });"
+    AppendLine sb, "  fieldNames.sort();"
+    AppendLine sb, "  fieldNames.forEach(function(v, i) {"
+    AppendLine sb, "    fieldColorMap[v] = i < ISP_COLORS.length ? ISP_COLORS[i] : OTHER_COLOR;"
+    AppendLine sb, "  });"
+    AppendLine sb, "}"
+    AppendLine sb, ""
+    AppendLine sb, "function getFieldColor(value) {"
+    AppendLine sb, "  return fieldColorMap[String(value)] || OTHER_COLOR;"
+    AppendLine sb, "}"
+    AppendLine sb, ""
+
+    ' --- clearSelection: uses getFieldColor(companies[i][currentField]) (Plan 02 update) ---
     AppendLine sb, "function clearSelection() {"
     AppendLine sb, "  if (radiusCircle) { map.removeLayer(radiusCircle); radiusCircle = null; }"
     AppendLine sb, "  markers.forEach(function(m, i) {"
     AppendLine sb, "    m.setRadius(8);"
-    AppendLine sb, "    m.setStyle({ fillColor: ispColorMap[companies[i].ISP] || OTHER_COLOR, color: '#ffffff', weight: 1, fillOpacity: 0.85 });"
+    AppendLine sb, "    m.setStyle({ fillColor: getFieldColor(companies[i][currentField]), color: '#ffffff', weight: 1, fillOpacity: 0.85 });"
     AppendLine sb, "  });"
     AppendLine sb, "  map.closePopup();"
     AppendLine sb, "  selectedMarker = null;"
@@ -150,6 +170,8 @@ Public Function BuildMapHtml(ByVal jsonStr As String) As String
     AppendLine sb, "  setHint(true);"
     AppendLine sb, "}"
     AppendLine sb, ""
+
+    ' --- applySelection: uses getFieldColor and currentField throughout (Plan 02 update) ---
     AppendLine sb, "function applySelection(marker, company) {"
     AppendLine sb, "  if (selectedMarker === marker) { clearSelection(); return; }"
     AppendLine sb, "  clearSelection();"
@@ -159,17 +181,17 @@ Public Function BuildMapHtml(ByVal jsonStr As String) As String
     AppendLine sb, "  selectedISP = company.ISP;"
     AppendLine sb, "  L.popup().setContent(buildPopupHtml(company)).setLatLng(marker.getLatLng()).openOn(map);"
     AppendLine sb, "  marker.setRadius(12);"
-    AppendLine sb, "  marker.setStyle({ fillColor: '#ffffff', color: ispColorMap[company.ISP] || OTHER_COLOR, weight: 2, fillOpacity: 0.85 });"
+    AppendLine sb, "  marker.setStyle({ fillColor: '#ffffff', color: getFieldColor(company[currentField]), weight: 2, fillOpacity: 0.85 });"
     AppendLine sb, "  var sliderVal = parseFloat(document.getElementById('radiusSlider').value);"
     AppendLine sb, "  var radiusMeters = sliderVal * 1609.34;"
     AppendLine sb, "  radiusCircle = L.circle(marker.getLatLng(), { radius: radiusMeters, color: '#0078ff', weight: 1, fillOpacity: 0.05, interactive: false }).addTo(map);"
     AppendLine sb, "  markers.forEach(function(m, i) {"
     AppendLine sb, "    if (m === marker) return;"
-    AppendLine sb, "    if (hiddenValues[companies[i].ISP]) return;"
+    AppendLine sb, "    if (hiddenValues[String(companies[i][currentField])]) return;"
     AppendLine sb, "    var dist = haversine(company.Lat, company.Lon, companies[i].Lat, companies[i].Lon);"
     AppendLine sb, "    if (dist <= sliderVal) {"
     AppendLine sb, "      m.setRadius(8);"
-    AppendLine sb, "      m.setStyle({ fillColor: ispColorMap[companies[i].ISP] || OTHER_COLOR, color: '#ffffff', weight: companies[i].ISP === company.ISP ? 3 : 1, fillOpacity: 0.85 });"
+    AppendLine sb, "      m.setStyle({ fillColor: getFieldColor(companies[i][currentField]), color: '#ffffff', weight: String(companies[i][currentField]) === String(company[currentField]) ? 3 : 1, fillOpacity: 0.85 });"
     AppendLine sb, "    } else {"
     AppendLine sb, "      m.setRadius(8);"
     AppendLine sb, "      m.setStyle({ fillOpacity: 0.15 });"
@@ -178,7 +200,68 @@ Public Function BuildMapHtml(ByVal jsonStr As String) As String
     AppendLine sb, "}"
     AppendLine sb, ""
 
-    ' --- Task 2: Radius slider Leaflet control and event bindings ---
+    ' --- Plan 02 Task 1: buildLegend and toggleValue ---
+    AppendLine sb, "function buildLegend() {"
+    AppendLine sb, "  if (!legendDiv) return;"
+    AppendLine sb, "  var html = '<strong>' + currentField + '</strong><br>';"
+    AppendLine sb, "  fieldNames.forEach(function(v) {"
+    AppendLine sb, "    var color = fieldColorMap[v] || OTHER_COLOR;"
+    AppendLine sb, "    var hidden = hiddenValues[v] ? true : false;"
+    AppendLine sb, "    var opacity = hidden ? '0.4' : '1';"
+    AppendLine sb, "    var strike = hidden ? 'text-decoration:line-through;' : '';"
+    AppendLine sb, "    html += '<span style=""display:inline-block;width:12px;height:12px;background:' + color"
+    AppendLine sb, "          + ';margin-right:6px;border-radius:2px;vertical-align:middle;opacity:' + opacity + '""></span>'"
+    AppendLine sb, "          + '<span style=""cursor:pointer;' + strike + '"" onclick=""toggleValue(\\'' + v.replace(/'/g, ""\\\\'"") + '\\')"">'"
+    AppendLine sb, "          + v + '</span><br>';"
+    AppendLine sb, "  });"
+    AppendLine sb, "  if (fieldNames.length > ISP_COLORS.length) {"
+    AppendLine sb, "    html += '<span style=""display:inline-block;width:12px;height:12px;background:#999999;margin-right:6px;border-radius:2px;vertical-align:middle""></span>Other<br>';"
+    AppendLine sb, "  }"
+    AppendLine sb, "  legendDiv.innerHTML = html;"
+    AppendLine sb, "}"
+    AppendLine sb, ""
+    AppendLine sb, "function toggleValue(val) {"
+    AppendLine sb, "  if (hiddenValues[val]) {"
+    AppendLine sb, "    delete hiddenValues[val];"
+    AppendLine sb, "    markers.forEach(function(m, i) {"
+    AppendLine sb, "      if (String(companies[i][currentField]) === val) {"
+    AppendLine sb, "        clusterGroup.addLayer(m);"
+    AppendLine sb, "      }"
+    AppendLine sb, "    });"
+    AppendLine sb, "  } else {"
+    AppendLine sb, "    hiddenValues[val] = true;"
+    AppendLine sb, "    markers.forEach(function(m, i) {"
+    AppendLine sb, "      if (String(companies[i][currentField]) === val) {"
+    AppendLine sb, "        clusterGroup.removeLayer(m);"
+    AppendLine sb, "        if (m === selectedMarker) { clearSelection(); }"
+    AppendLine sb, "      }"
+    AppendLine sb, "    });"
+    AppendLine sb, "  }"
+    AppendLine sb, "  buildLegend();"
+    AppendLine sb, "}"
+    AppendLine sb, ""
+
+    ' --- Plan 02 Task 2: applyFilter ---
+    AppendLine sb, "function applyFilter(field) {"
+    AppendLine sb, "  clearSelection();"
+    AppendLine sb, "  currentField = field;"
+    AppendLine sb, "  hiddenValues = {};"
+    AppendLine sb, "  buildColorMap(field);"
+    AppendLine sb, "  markers.forEach(function(m, i) {"
+    AppendLine sb, "    var v = companies[i][field] !== undefined ? String(companies[i][field]) : '';"
+    AppendLine sb, "    m.setStyle({ fillColor: getFieldColor(v) });"
+    AppendLine sb, "    clusterGroup.addLayer(m);"
+    AppendLine sb, "  });"
+    AppendLine sb, "  buildLegend();"
+    AppendLine sb, "}"
+    AppendLine sb, ""
+
+    ' --- Initialize default color map and legend ---
+    AppendLine sb, "buildColorMap('ISP');"
+    AppendLine sb, "buildLegend();"
+    AppendLine sb, ""
+
+    ' --- Radius slider Leaflet control (Plan 01 Task 2) ---
     AppendLine sb, "var radiusControl = L.control({position:'topleft'});"
     AppendLine sb, "radiusControl.onAdd = function(map) {"
     AppendLine sb, "  var div = L.DomUtil.create('div', 'radius-control');"
@@ -192,9 +275,39 @@ Public Function BuildMapHtml(ByVal jsonStr As String) As String
     AppendLine sb, "};"
     AppendLine sb, "radiusControl.addTo(map);"
     AppendLine sb, ""
+
+    ' --- Plan 02 Task 2: Filter dropdown Leaflet control ---
+    AppendLine sb, "var filterControl = L.control({position:'topright'});"
+    AppendLine sb, "filterControl.onAdd = function(map) {"
+    AppendLine sb, "  var div = L.DomUtil.create('div', 'filter-control');"
+    AppendLine sb, "  div.style.cssText = 'background:white;padding:8px 12px;border-radius:4px;font-size:13px;box-shadow:0 1px 5px rgba(0,0,0,.3)';"
+    AppendLine sb, "  var SYSTEM_FIELDS = ['Lat','Lon','GeocodedAt'];"
+    AppendLine sb, "  var filterFields = [];"
+    AppendLine sb, "  if (companies.length > 0) {"
+    AppendLine sb, "    Object.keys(companies[0]).forEach(function(k) {"
+    AppendLine sb, "      if (SYSTEM_FIELDS.indexOf(k) === -1) { filterFields.push(k); }"
+    AppendLine sb, "    });"
+    AppendLine sb, "  }"
+    AppendLine sb, "  var opts = filterFields.map(function(f) {"
+    AppendLine sb, "    return '<option value=""' + f + '""' + (f === 'ISP' ? ' selected' : '') + '>' + f + '</option>';"
+    AppendLine sb, "  }).join('');"
+    AppendLine sb, "  div.innerHTML = '<label style=""display:block;margin-bottom:4px""><strong>Color by</strong></label>'"
+    AppendLine sb, "              + '<select id=""fieldSelect"" style=""font-size:13px;width:100%"">' + opts + '</select>';"
+    AppendLine sb, "  L.DomEvent.disableClickPropagation(div);"
+    AppendLine sb, "  L.DomEvent.disableScrollPropagation(div);"
+    AppendLine sb, "  return div;"
+    AppendLine sb, "};"
+    AppendLine sb, "filterControl.addTo(map);"
+    AppendLine sb, ""
+
+    ' --- Event bindings ---
     AppendLine sb, "document.getElementById('radiusSlider').addEventListener('input', function() {"
     AppendLine sb, "  document.getElementById('radiusLabel').textContent = this.value;"
     AppendLine sb, "  if (selectedMarker) { applySelection(selectedMarker, selectedCompany); }"
+    AppendLine sb, "});"
+    AppendLine sb, ""
+    AppendLine sb, "document.getElementById('fieldSelect').addEventListener('change', function() {"
+    AppendLine sb, "  applyFilter(this.value);"
     AppendLine sb, "});"
     AppendLine sb, ""
     AppendLine sb, "markers.forEach(function(marker, i) {"
