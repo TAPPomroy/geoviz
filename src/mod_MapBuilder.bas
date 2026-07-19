@@ -306,7 +306,7 @@ Public Function BuildMapHtml(ByVal jsonStr As String) As String
     AppendLine sb, "    });"
     AppendLine sb, "  }"
     AppendLine sb, "  var opts = filterFields.map(function(f) {"
-    AppendLine sb, "    return '<option value=""' + f + '""' + (f === 'ISP' ? ' selected' : '') + '>' + f + '</option>';"
+    AppendLine sb, "    return '<option value=""' + escHtml(f) + '""' + (f === 'ISP' ? ' selected' : '') + '>' + escHtml(f) + '</option>';"
     AppendLine sb, "  }).join('');"
     AppendLine sb, "  div.innerHTML = '<label style=""display:block;margin-bottom:4px""><strong>Color by</strong></label>'"
     AppendLine sb, "              + '<select id=""fieldSelect"" style=""font-size:13px;width:100%"">' + opts + '</select>';"
