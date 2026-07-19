@@ -37,7 +37,10 @@
 2. Every company appears as a marker colored consistently by ISP (up to 7 named colors; additional ISPs show neutral gray), and the legend correctly labels each color.
 3. Dense clusters of markers collapse into count bubbles that expand on click, preventing marker overlap.
 4. The map renders on the CartoDB Positron basemap and is fully pannable and zoomable without page reloads.
-**Plans:** TBD
+**Plans:** 2 plans
+Plans:
+- [ ] 02-01-PLAN.md — Create mod_MapBuilder.bas (HTML builder: BuildMapHtml + WriteUtf8File)
+- [ ] 02-02-PLAN.md — Implement GenerateMap() in mod_Macros + add Excel button + human verify
 **UI hint:** yes
 
 ### Phase 3: Interactivity
@@ -59,5 +62,5 @@
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Data Pipeline | 6/6 planned | Ready to execute | - |
-| 2. Map Rendering | 0/? | Not started | - |
+| 2. Map Rendering | 0/2 planned | Ready to execute | - |
 | 3. Interactivity | 0/? | Not started | - |
