@@ -18,9 +18,9 @@ See: .planning/PROJECT.md
 
 | Field | Value |
 |-------|-------|
-| Phase | 2 — Map Rendering |
-| Plan | 02-02-PLAN.md |
-| Status | Complete |
+| Phase | 3 — Interactivity |
+| Plan | 03-01-PLAN.md, 03-02-PLAN.md |
+| Status | Ready to execute |
 | Progress | 2/3 phases complete |
 
 Progress: [x] Phase 1 / [x] Phase 2 / [ ] Phase 3
