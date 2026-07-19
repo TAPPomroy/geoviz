@@ -43,5 +43,29 @@ All 5 requirements (MAP-01 through MAP-05) must pass manual verification before 
 
 ---
 
+## Verification Results
+
+**Date:** 2026-07-19  
+**Result:** PASSED — all 5 requirements verified
+
+| REQ-ID | Result | Notes |
+|--------|--------|-------|
+| MAP-01 | ✓ PASS | Map renders, pans, and zooms in browser |
+| MAP-02 | ✓ PASS | ISP-colored markers and legend display correctly |
+| MAP-03 | ✓ PASS | Dense markers cluster into count bubbles |
+| MAP-04 | ✓ PASS | CartoDB Positron basemap loads via file:// in Chrome |
+| MAP-05 | ✓ PASS | Button click generates `geoviz_map.html` and opens browser |
+
+**Assumption outcomes:**
+- A3 (`file://` → HTTPS tiles): **Confirmed working** in Chrome
+- A4 (`Shell "explorer.exe"`): **Confirmed** opens default browser
+
+**Deviations from plan:**
+- `ThisWorkbook.Path` returned OneDrive URL (`https://d.docs.live.net/...`) — not anticipated; resolved by adding `LocalWorkbookPath()` to mod_Macros using `Environ("OneDriveConsumer")`
+- ADODB.Stream required `Position = 0` before `SaveToFile` — added to WriteUtf8File
+
+---
+
 *Validation strategy: 2026-07-18*
+*Verified: 2026-07-19*
 *Phase: 2 — Map Rendering*

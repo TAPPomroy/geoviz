@@ -33,8 +33,8 @@ Progress: [x] Phase 1 / [x] Phase 2 / [ ] Phase 3
 |--------|-------|
 | Phases defined | 3 |
 | Requirements mapped | 15/15 |
-| Plans created | 0 |
-| Plans complete | 0 |
+| Plans created | 8 |
+| Plans complete | 8 |
 
 ---
 
@@ -63,7 +63,7 @@ Progress: [x] Phase 1 / [x] Phase 2 / [ ] Phase 3
 ### Open Questions
 
 - Tile loading behavior on target machine (corporate proxy unknown)
-- Whether ThisWorkbook.Path resolves to a OneDrive path (affects output file strategy)
+- ~~Whether ThisWorkbook.Path resolves to a OneDrive path~~ — **Resolved:** it does return a URL; fixed via `LocalWorkbookPath()` using `Environ("OneDriveConsumer")`
 - MOTW distribution scenario (email/download vs. local copy)
 - Inline Leaflet JS/CSS vs. CDN reliance
 
