@@ -298,7 +298,7 @@ Public Function BuildMapHtml(ByVal jsonStr As String) As String
     AppendLine sb, "filterControl.onAdd = function(map) {"
     AppendLine sb, "  var div = L.DomUtil.create('div', 'filter-control');"
     AppendLine sb, "  div.style.cssText = 'background:white;padding:8px 12px;border-radius:4px;font-size:13px;box-shadow:0 1px 5px rgba(0,0,0,.3)';"
-    AppendLine sb, "  var SYSTEM_FIELDS = ['Lat','Lon','GeocodedAt'];"
+    AppendLine sb, "  var SYSTEM_FIELDS = ['Lat','Lon','GeocodedAt','Address'];"
     AppendLine sb, "  var filterFields = [];"
     AppendLine sb, "  if (companies.length > 0) {"
     AppendLine sb, "    Object.keys(companies[0]).forEach(function(k) {"
