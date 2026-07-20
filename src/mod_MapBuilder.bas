@@ -88,7 +88,7 @@ Public Function BuildMapHtml(ByVal jsonStr As String) As String
     AppendLine sb, "var legend = L.control({position:'bottomright'});"
     AppendLine sb, "legend.onAdd = function(map){"
     AppendLine sb, "  var div = L.DomUtil.create('div');"
-    AppendLine sb, "  div.style.cssText = 'background:white;padding:8px 12px;border-radius:4px;line-height:1.8;font-size:13px;box-shadow:0 1px 5px rgba(0,0,0,.3)';"
+    AppendLine sb, "  div.style.cssText = 'background:white;padding:8px 12px;border-radius:4px;line-height:1.8;font-size:13px;box-shadow:0 1px 5px rgba(0,0,0,.3);max-height:60vh;overflow-y:auto';"
     AppendLine sb, "  legendDiv = div;"
     AppendLine sb, "  return div;"
     AppendLine sb, "};"
