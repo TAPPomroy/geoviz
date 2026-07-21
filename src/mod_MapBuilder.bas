@@ -418,7 +418,7 @@ Public Function BuildMapHtml(ByVal jsonStr As String) As String
     AppendLine sb, "  var m = markers[idx];"
     AppendLine sb, "  var c = companies[idx];"
     AppendLine sb, "  applySelection(m, c);"
-    AppendLine sb, "  map.flyTo(m.getLatLng(), 14);"
+    AppendLine sb, "  map.flyTo(m.getLatLng(), 15);"
     AppendLine sb, "  this.value = '';"
     AppendLine sb, "});"
     AppendLine sb, ""
