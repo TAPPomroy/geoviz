@@ -355,7 +355,7 @@ Public Function BuildMapHtml(ByVal jsonStr As String) As String
     AppendLine sb, "  }).join('');"
     AppendLine sb, "  div.innerHTML = '<label style=""display:block;margin-bottom:4px""><strong>Find company</strong></label>'"
     AppendLine sb, "              + '<select id=""companySearch"" style=""font-size:13px;width:100%"">'"
-    AppendLine sb, "              + '<option value="" selected>Select Company</option>' + opts + '</select>';"
+    AppendLine sb, "              + '<option value="""" selected>Select Company</option>' + opts + '</select>';"
     AppendLine sb, "  L.DomEvent.disableClickPropagation(div);"
     AppendLine sb, "  L.DomEvent.disableScrollPropagation(div);"
     AppendLine sb, "  return div;"
