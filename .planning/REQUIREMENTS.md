@@ -36,6 +36,10 @@
 
 - [x] **INT-05**: A "Find company" dropdown lets the user select a company by name; the map flies to that company at a zoom level showing ~2 miles of context and activates its full selection state (popup, radius circle, neighbor highlighting)
 
+### Labels
+
+- [x] **INT-06**: When the visible map width is 5 miles or less and no marker is selected, each marker displays the company name as a label to its right, colored to match the marker's current fill color; labels hide when a marker is selected and reappear when selection is cleared
+
 ## v2 Requirements
 
 ### Enhanced Interaction
@@ -85,6 +89,7 @@
 | FILT-01 | Phase 3 | Complete |
 | FILT-02 | Phase 3 | Complete |
 | INT-05 | Phase 3 | Complete |
+| INT-06 | Phase 3 | Complete |
 
 **Coverage:**
 - v1 requirements: 15 total

@@ -26,6 +26,10 @@ human_verification:
   - test: "Hide some legend entries, then switch the 'Color by' column."
     expected: "Previously hidden markers reappear. Legend entries all restore to full opacity. No strikethrough on any entry."
     why_human: "Requires browser interaction to verify visibility reset across filter switch."
+  - test: "Zoom in until the visible map width is 5 miles or less with no marker selected."
+    expected: "Company name labels appear to the right of each marker, colored to match the marker fill. Selecting a marker hides all labels. Clearing selection restores labels. Switching 'Color by' column updates label colors to match."
+    status: verified
+    why_human: "Requires browser interaction and zoom to observe label appearance and color behavior."
   - test: "Select a company from the 'Find company' dropdown."
     expected: "Map flies smoothly to that company at zoom 14. Popup opens, radius circle draws, neighbors highlight — identical to clicking the marker directly. Dropdown resets to 'Select Company' after selection."
     status: verified
