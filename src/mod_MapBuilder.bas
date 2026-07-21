@@ -30,7 +30,9 @@ Public Function BuildMapHtml(ByVal jsonStr As String) As String
     ' --- DOCTYPE and head ---
     AppendLine sb, "<!DOCTYPE html>"
     AppendLine sb, "<html><head><meta charset=""utf-8""><title>GeoViz Map</title>"
-    AppendLine sb, "<style>body{margin:0;padding:0;} #map{height:100vh;width:100%;}</style>"
+    AppendLine sb, "<style>body{margin:0;padding:0;} #map{height:100vh;width:100%;}"
+    AppendLine sb, ".company-label{background:transparent!important;border:none!important;box-shadow:none!important;font-size:11px;font-weight:bold;white-space:nowrap;padding:0!important;}"
+    AppendLine sb, ".company-label::before{display:none!important;}</style>"
 
     ' CSS load order: Leaflet CSS first, then both MarkerCluster CSS files (Pitfall 1 & 2)
     AppendLine sb, "<link rel=""stylesheet"" href=""https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"" crossorigin="""" integrity=""sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=""/>"
@@ -78,6 +80,10 @@ Public Function BuildMapHtml(ByVal jsonStr As String) As String
     AppendLine sb, "  clusterGroup.addLayer(marker);"
     AppendLine sb, "});"
     AppendLine sb, "map.addLayer(clusterGroup);"
+    AppendLine sb, "markers.forEach(function(m, i) {"
+    AppendLine sb, "  m.bindTooltip(companies[i].Name || '', { permanent: true, direction: 'right', className: 'company-label', offset: [8, 0] });"
+    AppendLine sb, "  m.closeTooltip();"
+    AppendLine sb, "});"
 
     ' Fit bounds only when there are markers (guard against empty dataset)
     AppendLine sb, "if(markers.length > 0){ map.fitBounds(clusterGroup.getBounds(),{padding:[30,30]}); }"
@@ -110,6 +116,24 @@ Public Function BuildMapHtml(ByVal jsonStr As String) As String
     AppendLine sb, "var fieldColorMap = {};"
     AppendLine sb, "var fieldNames = [];"
     AppendLine sb, "var hiddenValues = {};"
+    AppendLine sb, ""
+
+    ' --- Label visibility: show company name when map width <= 5 miles and nothing selected ---
+    AppendLine sb, "function updateLabels() {"
+    AppendLine sb, "  var bounds = map.getBounds();"
+    AppendLine sb, "  var clat = map.getCenter().lat;"
+    AppendLine sb, "  var widthMiles = haversine(clat, bounds.getWest(), clat, bounds.getEast());"
+    AppendLine sb, "  var show = !selectedMarker && widthMiles <= 5;"
+    AppendLine sb, "  markers.forEach(function(m, i) {"
+    AppendLine sb, "    if (show) {"
+    AppendLine sb, "      m.openTooltip();"
+    AppendLine sb, "      var el = m.getTooltip() && m.getTooltip().getElement();"
+    AppendLine sb, "      if (el) el.style.color = getFieldColor(companies[i][currentField]);"
+    AppendLine sb, "    } else {"
+    AppendLine sb, "      m.closeTooltip();"
+    AppendLine sb, "    }"
+    AppendLine sb, "  });"
+    AppendLine sb, "}"
     AppendLine sb, ""
 
     ' --- Helper: haversine distance in miles ---
@@ -186,6 +210,7 @@ Public Function BuildMapHtml(ByVal jsonStr As String) As String
     AppendLine sb, "  selectedCompany = null;"
     AppendLine sb, "  selectedISP = null;"
     AppendLine sb, "  setHint(true);"
+    AppendLine sb, "  updateLabels();"
     AppendLine sb, "}"
     AppendLine sb, ""
 
@@ -193,6 +218,7 @@ Public Function BuildMapHtml(ByVal jsonStr As String) As String
     AppendLine sb, "function applySelection(marker, company) {"
     AppendLine sb, "  if (selectedMarker === marker) { clearSelection(); return; }"
     AppendLine sb, "  clearSelection();"
+    AppendLine sb, "  markers.forEach(function(m) { m.closeTooltip(); });"
     AppendLine sb, "  setHint(false);"
     AppendLine sb, "  selectedMarker = marker;"
     AppendLine sb, "  selectedCompany = company;"
@@ -270,6 +296,7 @@ Public Function BuildMapHtml(ByVal jsonStr As String) As String
     AppendLine sb, "    clusterGroup.addLayer(m);"
     AppendLine sb, "  });"
     AppendLine sb, "  buildLegend();"
+    AppendLine sb, "  updateLabels();"
     AppendLine sb, "}"
     AppendLine sb, ""
 
@@ -391,6 +418,7 @@ Public Function BuildMapHtml(ByVal jsonStr As String) As String
     AppendLine sb, "});"
     AppendLine sb, ""
     AppendLine sb, "map.on('click', clearSelection);"
+    AppendLine sb, "map.on('zoomend moveend', updateLabels);"
 
     AppendLine sb, "</script></body></html>"
 
