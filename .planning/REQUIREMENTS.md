@@ -32,6 +32,10 @@
 - [x] **FILT-01**: A dropdown or toggle on the map lets the user switch marker coloring between available attribute columns (defaults to ISP)
 - [x] **FILT-02**: An ISP legend on the map allows individual ISPs to be shown or hidden by clicking their legend entry
 
+### Search & Navigation
+
+- [x] **INT-05**: A "Find company" dropdown lets the user select a company by name; the map flies to that company at a zoom level showing ~2 miles of context and activates its full selection state (popup, radius circle, neighbor highlighting)
+
 ## v2 Requirements
 
 ### Enhanced Interaction
@@ -80,6 +84,7 @@
 | INT-04 | Phase 3 | Complete |
 | FILT-01 | Phase 3 | Complete |
 | FILT-02 | Phase 3 | Complete |
+| INT-05 | Phase 3 | Complete |
 
 **Coverage:**
 - v1 requirements: 15 total
