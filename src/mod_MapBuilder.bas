@@ -137,7 +137,7 @@ Public Function BuildMapHtml(ByVal jsonStr As String) As String
 
     ' --- Helper: popup HTML table ---
     AppendLine sb, "function buildPopupHtml(company) {"
-    AppendLine sb, "  var POPUP_EXCLUDE = ['Lat','Lon'];"
+    AppendLine sb, "  var POPUP_EXCLUDE = ['Lat','Lon','GeocodedAt','Column1'];"
     AppendLine sb, "  var rows = '';"
     AppendLine sb, "  Object.keys(company).forEach(function(k) {"
     AppendLine sb, "    if (POPUP_EXCLUDE.indexOf(k) === -1) {"
