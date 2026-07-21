@@ -44,18 +44,21 @@ Plans:
 **UI hint:** yes
 
 ### Phase 3: Interactivity
-**Goal:** Clicking a company on the map triggers a popup, a live radius circle, and neighbor highlighting; a slider adjusts the radius; and attribute filter controls and an ISP legend toggle let users focus on specific groups.
+**Goal:** Clicking a company on the map triggers a popup, a live radius circle, and neighbor highlighting; a slider adjusts the radius; attribute filter controls and a legend toggle let users focus on specific groups; a search control navigates to any company by name; and name labels appear automatically when zoomed in.
 **Depends on:** Phase 2
-**Requirements:** INT-01, INT-02, INT-03, INT-04, FILT-01, FILT-02
+**Requirements:** INT-01, INT-02, INT-03, INT-04, FILT-01, FILT-02, INT-05, INT-06
 **Success Criteria:**
-1. Clicking any marker opens a popup listing company name, ISP, address, and all attribute columns; no VBA changes are needed to support new attribute columns.
-2. After clicking a marker, a radius circle appears immediately and all companies within the radius are highlighted; companies sharing the clicked company's ISP are visually distinct from other neighbors.
+1. Clicking any marker opens a popup listing all company fields except Lat, Lon, GeocodedAt, and Column1; no VBA changes are needed to support new attribute columns.
+2. After clicking a marker, a radius circle appears immediately and all companies within the radius are highlighted; companies sharing the clicked company's current color-by value are visually distinct from other neighbors.
 3. Dragging the radius slider updates the circle boundary and neighbor highlights in real time without a page reload.
-4. Using the attribute dropdown switches marker coloring to the selected column, and clicking an ISP legend entry shows or hides that ISP's markers immediately.
+4. Using the attribute dropdown switches marker coloring to the selected column, and clicking a legend entry shows or hides matching markers immediately.
+5. Selecting a company from the "Find company" dropdown flies the map to that company at zoom 15 (~2 mile view) and activates its full selection state.
+6. When the visible map width is 5 miles or less, all company name labels appear to the right of their markers in the current field color; labels remain visible at full opacity when a company is selected.
 **Plans:** 2/2 plans complete
 Plans:
 - [x] 03-01-PLAN.md — Marker click interaction, radius circle, neighbor highlighting, radius slider (INT-01 through INT-04)
 - [x] 03-02-PLAN.md — Interactive legend with toggle, attribute filter dropdown, dynamic recoloring (FILT-01, FILT-02)
+- [x] Post-plan — Find Company search control (INT-05), company name labels (INT-06), UX fixes
 **UI hint:** yes
 
 ---

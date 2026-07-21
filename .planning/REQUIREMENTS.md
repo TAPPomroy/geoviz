@@ -92,8 +92,8 @@
 | INT-06 | Phase 3 | Complete |
 
 **Coverage:**
-- v1 requirements: 15 total
-- Mapped to phases: 15
+- v1 requirements: 17 total (15 original + INT-05, INT-06 added post-plan)
+- Mapped to phases: 17
 - Unmapped: 0 ✓
 
 ---
